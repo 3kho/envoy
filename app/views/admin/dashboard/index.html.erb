@@ -1,0 +1,88 @@
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="text-sm text-gray-500">Total Applications</div>
+    <div class="text-3xl font-bold text-gray-900"><%= @stats[:total_applications] %></div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="text-sm text-gray-500">Pending Review</div>
+    <div class="text-3xl font-bold text-yellow-600"><%= @stats[:pending] %></div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="text-sm text-gray-500">Approved</div>
+    <div class="text-3xl font-bold text-green-600"><%= @stats[:approved] %></div>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="text-sm text-gray-500">Rejected</div>
+    <div class="text-3xl font-bold text-red-600"><%= @stats[:rejected] %></div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-900">Recent Applications</h2>
+      <%= link_to "View All", admin_visa_letter_applications_path, class: "text-sm text-red-600 hover:text-red-700" %>
+    </div>
+    <div class="divide-y">
+      <% @recent_applications.each do |application| %>
+        <div class="px-6 py-4 hover:bg-gray-50">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-medium text-gray-900"><%= application.participant.full_name %></p>
+              <p class="text-sm text-gray-500"><%= application.event.name %></p>
+            </div>
+            <div class="text-right">
+              <% case application.status %>
+              <% when "pending_verification" %>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">Pending Verification</span>
+              <% when "pending_approval" %>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Pending Approval</span>
+              <% when "approved" %>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Approved</span>
+              <% when "rejected" %>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Rejected</span>
+              <% when "letter_sent" %>
+                <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Letter Sent</span>
+              <% end %>
+              <p class="text-xs text-gray-500 mt-1"><%= time_ago_in_words(application.created_at) %> ago</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-900">Upcoming Events</h2>
+      <%= link_to "View All", admin_events_path, class: "text-sm text-red-600 hover:text-red-700" %>
+    </div>
+    <div class="divide-y">
+      <% @upcoming_events.each do |event| %>
+        <div class="px-6 py-4 hover:bg-gray-50">
+          <%= link_to admin_event_path(event), class: "block" do %>
+            <p class="font-medium text-gray-900"><%= event.name %></p>
+            <p class="text-sm text-gray-500"><%= event.date_range %> - <%= event.city %>, <%= event.country %></p>
+            <div class="flex items-center mt-1 space-x-2">
+              <% if event.accepting_applications? %>
+                <span class="text-xs text-green-600">Accepting applications</span>
+              <% else %>
+                <span class="text-xs text-gray-500">Not accepting applications</span>
+              <% end %>
+              <span class="text-xs text-gray-400">|</span>
+              <span class="text-xs text-gray-500"><%= event.visa_letter_applications.count %> applications</span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <% if @upcoming_events.empty? %>
+        <div class="px-6 py-8 text-center text-gray-500">
+          No upcoming events.
+          <%= link_to "Create one", new_admin_event_path, class: "text-red-600 hover:text-red-700" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

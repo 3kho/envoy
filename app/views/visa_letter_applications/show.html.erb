@@ -1,0 +1,87 @@
+<div class="max-w-2xl mx-auto">
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <div class="text-center mb-8">
+      <% case @application.status %>
+      <% when "pending_verification" %>
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 mb-4">
+          <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Email Verification Required</h1>
+        <p class="text-gray-600 mt-2">Please verify your email to complete your application.</p>
+        <%= link_to "Verify Email", verify_email_visa_letter_application_path(@application), class: "inline-block mt-4 bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700" %>
+      <% when "pending_approval" %>
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 mb-4">
+          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Application Under Review</h1>
+        <p class="text-gray-600 mt-2">Your application is being reviewed. You'll receive an email once a decision is made.</p>
+      <% when "approved" %>
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Application Approved!</h1>
+        <p class="text-gray-600 mt-2">Your visa letter is being generated and will be sent to your email shortly.</p>
+      <% when "letter_sent" %>
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Visa Letter Sent!</h1>
+        <p class="text-gray-600 mt-2">Your visa invitation letter has been sent to <%= @participant.email %>.</p>
+      <% when "rejected" %>
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Application Not Approved</h1>
+        <% if @application.rejection_reason.present? %>
+          <p class="text-gray-600 mt-2"><%= @application.rejection_reason %></p>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="border-t pt-6">
+      <h2 class="font-semibold text-gray-900 mb-4">Application Details</h2>
+      <dl class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <dt class="text-gray-500">Reference Number</dt>
+          <dd class="font-mono font-medium text-gray-900"><%= @application.reference_number %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Event</dt>
+          <dd class="text-gray-900"><%= @event.name %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Event Dates</dt>
+          <dd class="text-gray-900"><%= @event.date_range %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Location</dt>
+          <dd class="text-gray-900"><%= @event.city %>, <%= @event.country %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Applicant</dt>
+          <dd class="text-gray-900"><%= @participant.full_name %></dd>
+        </div>
+        <div>
+          <dt class="text-gray-500">Email</dt>
+          <dd class="text-gray-900"><%= @participant.email %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="border-t pt-6 mt-6 text-center">
+      <p class="text-sm text-gray-600">
+        Questions? Contact us at <%= mail_to @event.contact_email, @event.contact_email, class: "text-red-600 hover:text-red-700" %>
+      </p>
+    </div>
+  </div>
+</div>

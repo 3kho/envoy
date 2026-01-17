@@ -1,0 +1,16 @@
+<h1>New Visa Letter Application</h1>
+
+<p>A new visa letter application has been submitted and is pending review.</p>
+
+<h2>Application Details</h2>
+<ul>
+  <li><strong>Reference Number:</strong> <%= @application.reference_number %></li>
+  <li><strong>Participant:</strong> <%= @participant.full_name %></li>
+  <li><strong>Email:</strong> <%= @participant.email %></li>
+  <li><strong>Event:</strong> <%= @event.name %></li>
+  <li><strong>Submitted:</strong> <%= @application.submitted_at&.strftime("%B %d, %Y at %I:%M %p") %></li>
+</ul>
+
+<p><%= link_to "Review Application", admin_visa_letter_application_url(@application) %></p>
+
+<p>Best regards,<br>The Hack Club Visa Letter System</p>

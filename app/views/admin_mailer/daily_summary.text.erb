@@ -1,0 +1,20 @@
+Daily Visa Letter Application Summary
+
+Hello <%= @admin.first_name %>,
+
+Here is your daily summary for <%= @today.strftime("%B %d, %Y") %>:
+
+Today's Activity
+- New Applications: <%= @new_applications %>
+- Approved Today: <%= @approved_today %>
+- Rejected Today: <%= @rejected_today %>
+
+Pending Review
+There are currently <%= @pending_applications %> applications pending review.
+
+<% if @pending_applications > 0 %>
+Review pending applications at: <%= admin_visa_letter_applications_url(status: "pending_approval") %>
+<% end %>
+
+Best regards,
+The Hack Club Visa Letter System

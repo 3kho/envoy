@@ -1,0 +1,80 @@
+<div class="flex justify-between items-start mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900"><%= @letter_template.name %></h1>
+    <p class="text-gray-500">
+      <% if @letter_template.event.present? %>
+        Event-specific template for <%= @letter_template.event.name %>
+      <% else %>
+        Global template
+        <% if @letter_template.is_default? %>
+          <span class="ml-2 inline-flex px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Default</span>
+        <% end %>
+      <% end %>
+    </p>
+  </div>
+  <div class="space-x-2">
+    <%= link_to "Edit", edit_admin_letter_template_path(@letter_template), class: "bg-gray-100 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200" %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Letter Body</h2>
+      <div class="bg-gray-50 p-4 rounded font-mono text-sm whitespace-pre-wrap">
+        <%= @letter_template.body %>
+      </div>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Signatory</h2>
+      <dl class="space-y-2">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Name</dt>
+          <dd class="text-gray-900"><%= @letter_template.signatory_name %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Title</dt>
+          <dd class="text-gray-900"><%= @letter_template.signatory_title %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Attachments</h2>
+      <dl class="space-y-2">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Letterhead</dt>
+          <dd class="text-gray-900">
+            <% if @letter_template.letterhead_image.attached? %>
+              <%= link_to @letter_template.letterhead_image.filename, rails_blob_path(@letter_template.letterhead_image, disposition: "inline"), target: "_blank", class: "text-blue-600 hover:text-blue-800" %>
+            <% else %>
+              <span class="text-gray-400">Not attached</span>
+            <% end %>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Signature</dt>
+          <dd class="text-gray-900">
+            <% if @letter_template.signature_image.attached? %>
+              <%= link_to @letter_template.signature_image.filename, rails_blob_path(@letter_template.signature_image, disposition: "inline"), target: "_blank", class: "text-blue-600 hover:text-blue-800" %>
+            <% else %>
+              <span class="text-gray-400">Not attached</span>
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Status</h2>
+      <% if @letter_template.active? %>
+        <span class="inline-flex px-2 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800">Active</span>
+      <% else %>
+        <span class="inline-flex px-2 py-1 text-sm font-medium rounded-full bg-gray-100 text-gray-800">Inactive</span>
+      <% end %>
+    </div>
+  </div>
+</div>

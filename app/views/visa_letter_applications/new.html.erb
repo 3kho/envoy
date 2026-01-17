@@ -1,0 +1,89 @@
+<div class="max-w-2xl mx-auto">
+  <div class="bg-blue-900 text-white py-12 px-6 mb-8">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold mb-4">Apply for Visa Letter</h1>
+      <p class="text-lg text-gray-300">Please email <a href="mailto:events@hackclub.com" class="underline">events@hackclub.com</a> if you need any assistance with your visa application.</p>
+    </div>
+  </div>
+  <div class="bg-blue-100 border-l-4 border-blue-700 p-4 mb-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm text-blue-900">
+          <strong>Event Details:</strong> <%= @event.name %> · <%= @event.date_range %> · <%= @event.city %>, <%= @event.country %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white border border-gray-300 shadow-sm p-8">
+    <h2 class="text-xl font-bold text-blue-900 mb-6">Personal Information</h2>
+
+    <%= form_with model: @participant, url: event_applications_path(event_slug: @event.slug), class: "space-y-6" do |f| %>
+      <% if @participant.errors.any? %>
+        <div class="bg-red-50 border-l-4 border-red-500 p-4">
+          <h3 class="text-red-800 font-medium mb-2">Please correct the following errors:</h3>
+          <ul class="list-disc list-inside text-red-700 text-sm">
+            <% @participant.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :email, "Email Address", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.email_field :email, required: true, class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="text-xs text-gray-500 mt-1">We'll send a verification code to this email</p>
+      </div>
+
+      <div>
+        <%= f.label :full_name, "Full Legal Name (as on passport)", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.text_field :full_name, required: true, class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <div>
+        <%= f.label :date_of_birth, "Date of Birth", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.date_field :date_of_birth, required: true, max: 13.years.ago.to_date, class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <div>
+        <%= f.label :place_of_birth, "Place of Birth", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.text_field :place_of_birth, required: true, placeholder: "City, Country", class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="text-xs text-gray-500 mt-1">Enter city and country (e.g., New Delhi, India)</p>
+      </div>
+
+      <div>
+        <%= f.label :country_of_birth, "Country of Citizenship", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.select :country_of_birth, options_for_select(Countries::LIST, @participant.country_of_birth),
+                     { prompt: "Select a country" },
+                     { required: true, class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" } %>
+        <p class="text-xs text-gray-500 mt-1">If the country issuing your passport is different from your country of citizenship, please email <a href="mailto:events@hackclub.com" class="underline">events@hackclub.com</a></p>
+      </div>
+
+      <div>
+        <%= f.label :phone_number, "Phone Number", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.text_field :phone_number, required: true, placeholder: "+1 555 123 4567", class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+        <p class="text-xs text-gray-500 mt-1">Country code required (e.g., +1 for US, +44 for UK)</p>
+      </div>
+
+      <div>
+        <%= f.label :full_street_address, "Full Mailing Address", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+        <%= f.text_field :full_street_address, required: true, placeholder: "Street address, City, State/Province, Postal Code, Country", class: "w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <div class="pt-4">
+        <%= f.submit "Continue →", class: "w-full bg-blue-700 text-white py-3 px-4 font-semibold hover:bg-blue-900 transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+
+    <p class="text-xs text-gray-500 mt-6 text-center">
+      By submitting this form, you agree to provide accurate information for your visa invitation letter.
+    </p>
+  </div>
+</div>
+</div>

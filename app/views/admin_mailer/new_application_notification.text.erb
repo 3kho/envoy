@@ -1,0 +1,15 @@
+New Visa Letter Application
+
+A new visa letter application has been submitted and is pending review.
+
+Application Details
+- Reference Number: <%= @application.reference_number %>
+- Participant: <%= @participant.full_name %>
+- Email: <%= @participant.email %>
+- Event: <%= @event.name %>
+- Submitted: <%= @application.submitted_at&.strftime("%B %d, %Y at %I:%M %p") %>
+
+Review the application at: <%= admin_visa_letter_application_url(@application) %>
+
+Best regards,
+The Hack Club Visa Letter System

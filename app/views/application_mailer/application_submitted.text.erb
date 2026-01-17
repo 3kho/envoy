@@ -1,0 +1,18 @@
+Application Submitted
+
+Hello <%= @participant.full_name %>,
+
+Your visa letter application for <%= @event.name %> has been successfully submitted and is now pending review.
+
+Application Details
+- Reference Number: <%= @application.reference_number %>
+- Event: <%= @event.name %>
+- Event Dates: <%= @event.date_range %>
+- Location: <%= @event.full_address %>
+
+You will receive an email notification once your application has been reviewed.
+
+If you have any questions, please contact us at <%= @event.contact_email %>.
+
+Best regards,
+The Hack Club Team

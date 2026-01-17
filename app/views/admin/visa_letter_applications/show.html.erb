@@ -1,0 +1,179 @@
+<div class="flex justify-between items-start mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Application <%= @application.reference_number %></h1>
+    <p class="text-gray-500"><%= @event.name %></p>
+  </div>
+  <div>
+    <%= render "status_badge", application: @application %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2 space-y-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Participant Information</h2>
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Full Name</dt>
+          <dd class="text-gray-900"><%= @participant.full_name %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Email</dt>
+          <dd class="text-gray-900"><%= @participant.email %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Date of Birth</dt>
+          <dd class="text-gray-900"><%= @participant.date_of_birth.strftime("%B %d, %Y") %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Country of Birth</dt>
+          <dd class="text-gray-900"><%= @participant.country_of_birth %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Phone Number</dt>
+          <dd class="text-gray-900"><%= @participant.phone_number %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Address</dt>
+          <dd class="text-gray-900"><%= @participant.full_street_address %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Event Information</h2>
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Event Name</dt>
+          <dd class="text-gray-900"><%= @event.name %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Dates</dt>
+          <dd class="text-gray-900"><%= @event.date_range %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Location</dt>
+          <dd class="text-gray-900"><%= @event.full_address %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Contact Email</dt>
+          <dd class="text-gray-900"><%= @event.contact_email %></dd>
+        </div>
+      </dl>
+    </div>
+
+    <% if @application.can_be_approved? || @application.can_be_rejected? %>
+      <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Review Application</h2>
+        
+        <div class="space-y-4">
+          <%= form_with url: approve_admin_visa_letter_application_path(@application), method: :post, class: "border-b pb-4" do %>
+            <div class="mb-4">
+              <%= label_tag :admin_notes, "Admin Notes (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= text_area_tag :admin_notes, @application.admin_notes, rows: 2, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" %>
+            </div>
+            <%= submit_tag "Approve Application", class: "bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 cursor-pointer", data: { confirm: "Are you sure you want to approve this application?" } %>
+          <% end %>
+
+          <%= form_with url: reject_admin_visa_letter_application_path(@application), method: :post, class: "pt-4" do %>
+            <div class="mb-4">
+              <%= label_tag :rejection_reason, "Rejection Reason (required)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= text_area_tag :rejection_reason, @application.rejection_reason, rows: 2, required: true, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+            </div>
+            <div class="mb-4">
+              <%= label_tag :admin_notes_reject, "Admin Notes (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= text_area_tag :admin_notes, @application.admin_notes, rows: 2, id: "admin_notes_reject", class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+            </div>
+            <%= submit_tag "Reject Application", class: "bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer", data: { confirm: "Are you sure you want to reject this application?" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @application.rejection_reason.present? %>
+      <div class="bg-red-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-red-900 mb-2">Rejection Reason</h3>
+        <p class="text-red-800"><%= @application.rejection_reason %></p>
+      </div>
+    <% end %>
+
+    <% if @application.admin_notes.present? %>
+      <div class="bg-gray-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Admin Notes</h3>
+        <p class="text-gray-700"><%= @application.admin_notes %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="space-y-6">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Timeline</h2>
+      <ul class="space-y-4">
+        <li class="flex items-start">
+          <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-gray-400"></div>
+          <div class="ml-3">
+            <p class="text-sm text-gray-900">Application Created</p>
+            <p class="text-xs text-gray-500"><%= @application.created_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+          </div>
+        </li>
+        <% if @participant.email_verified_at %>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-blue-400"></div>
+            <div class="ml-3">
+              <p class="text-sm text-gray-900">Email Verified</p>
+              <p class="text-xs text-gray-500"><%= @participant.email_verified_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+            </div>
+          </li>
+        <% end %>
+        <% if @application.submitted_at %>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-blue-400"></div>
+            <div class="ml-3">
+              <p class="text-sm text-gray-900">Application Submitted</p>
+              <p class="text-xs text-gray-500"><%= @application.submitted_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+            </div>
+          </li>
+        <% end %>
+        <% if @application.reviewed_at %>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full <%= @application.approved? || @application.letter_sent? ? 'bg-green-400' : 'bg-red-400' %>"></div>
+            <div class="ml-3">
+              <p class="text-sm text-gray-900"><%= @application.approved? || @application.letter_sent? ? 'Approved' : 'Rejected' %></p>
+              <p class="text-xs text-gray-500"><%= @application.reviewed_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+              <% if @application.reviewed_by %>
+                <p class="text-xs text-gray-500">by <%= @application.reviewed_by.full_name %></p>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+        <% if @application.letter_sent_at %>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-green-400"></div>
+            <div class="ml-3">
+              <p class="text-sm text-gray-900">Letter Sent</p>
+              <p class="text-xs text-gray-500"><%= @application.letter_sent_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <% if @application.approved? || @application.letter_sent? %>
+      <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Visa Letter</h2>
+        <div class="space-y-3">
+          <% if @application.letter_pdf.attached? %>
+            <%= link_to "Download PDF", rails_blob_path(@application.letter_pdf, disposition: "attachment"),
+                        class: "inline-block w-full text-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700" %>
+          <% end %>
+          <%= button_to "Regenerate & Send Letter",
+                        regenerate_letter_admin_visa_letter_application_path(@application),
+                        method: :post,
+                        form: { style: "width: 100%;" },
+                        style: "width: 100%; background-color: #ea580c; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; border: none;",
+                        data: { turbo_confirm: "This will regenerate the letter using the current template and email it to the applicant. Continue?" } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

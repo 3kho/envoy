@@ -1,0 +1,52 @@
+<div class="max-w-xl mx-auto py-12 px-4">
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-green-700 mb-2">Letter Verified</h1>
+      <p class="text-gray-600">This visa invitation letter is authentic and was officially issued by The Hack Foundation.</p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-6 space-y-4">
+      <h2 class="font-semibold text-gray-900 mb-4">Letter Details</h2>
+      
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <span class="text-gray-500">Reference Number:</span>
+          <p class="font-medium text-gray-900"><%= @application.reference_number %></p>
+        </div>
+        <div>
+          <span class="text-gray-500">Issue Date:</span>
+          <p class="font-medium text-gray-900"><%= @application.letter_sent_at&.strftime("%B %d, %Y") %></p>
+        </div>
+        <div>
+          <span class="text-gray-500">Participant:</span>
+          <p class="font-medium text-gray-900"><%= @application.participant.full_name %></p>
+        </div>
+        <div>
+          <span class="text-gray-500">Event:</span>
+          <p class="font-medium text-gray-900"><%= @application.event.name %></p>
+        </div>
+        <div>
+          <span class="text-gray-500">Event Dates:</span>
+          <p class="font-medium text-gray-900"><%= @application.event.date_range %></p>
+        </div>
+        <div>
+          <span class="text-gray-500">Event Location:</span>
+          <p class="font-medium text-gray-900"><%= @application.event.city %>, <%= @application.event.country %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= link_to "Verify Another Letter", verify_path, class: "text-red-600 hover:text-red-700 font-medium" %>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+      <p>Hack Club is a 501(c)(3) public charity. EIN: 81-2908499</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<%= form_with model: [:admin, letter_template], class: "space-y-6" do |f| %>
+  <% if letter_template.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-md p-4">
+      <h3 class="text-red-800 font-medium mb-2">Please correct the following errors:</h3>
+      <ul class="list-disc list-inside text-red-700 text-sm">
+        <% letter_template.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :name, required: true, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+    </div>
+
+    <div>
+      <%= f.label :event_id, "Event (leave blank for global template)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.collection_select :event_id, Event.all, :id, :name, { include_blank: "Global Template" },
+                              { class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" } %>
+    </div>
+  </div>
+
+  <div>
+    <%= f.label :body, class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= f.text_area :body, rows: 15, required: true, class: "w-full font-mono text-sm border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+    <div class="mt-2 text-sm text-gray-500">
+      <p class="font-medium">Available placeholders:</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-1 text-xs font-mono">
+        <% LetterTemplate::PLACEHOLDERS.each do |placeholder| %>
+          <span class="bg-gray-100 px-2 py-1 rounded">{{<%= placeholder %>}}</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= f.label :signatory_name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :signatory_name, required: true, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+    </div>
+
+    <div>
+      <%= f.label :signatory_title, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :signatory_title, required: true, class: "w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= f.label :letterhead_image, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.file_field :letterhead_image, accept: "image/*", class: "w-full" %>
+      <% if letter_template.letterhead_image.attached? %>
+        <p class="text-sm text-gray-500 mt-1">Current: <%= letter_template.letterhead_image.filename %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :signature_image, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.file_field :signature_image, accept: "image/*", class: "w-full" %>
+      <% if letter_template.signature_image.attached? %>
+        <p class="text-sm text-gray-500 mt-1">Current: <%= letter_template.signature_image.filename %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex items-center space-x-6">
+    <div class="flex items-center">
+      <%= f.check_box :active, class: "h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded" %>
+      <%= f.label :active, "Active", class: "ml-2 text-sm text-gray-700" %>
+    </div>
+
+    <% if letter_template.event_id.nil? && current_admin.super_admin? %>
+      <div class="flex items-center">
+        <%= f.check_box :is_default, class: "h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded" %>
+        <%= f.label :is_default, "Set as default template", class: "ml-2 text-sm text-gray-700" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex justify-end space-x-4 pt-4">
+    <%= link_to "Cancel", admin_letter_templates_path, class: "py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50" %>
+    <%= f.submit letter_template.persisted? ? "Update Template" : "Create Template", class: "bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 cursor-pointer" %>
+  </div>
+<% end %>

@@ -1,0 +1,21 @@
+Your Visa Letter is Ready!
+
+Hello <%= @participant.full_name %>,
+
+Great news! Your visa letter application for <%= @event.name %> has been approved.
+
+Your official visa invitation letter is attached to this email as a PDF document.
+
+Event Details
+- Event: <%= @event.name %>
+- Dates: <%= @event.date_range %>
+- Location: <%= @event.full_address %>
+- Reference Number: <%= @application.reference_number %>
+
+Next Steps
+Please print this letter and include it with your visa application. If you have any questions or need additional documentation, please contact us at <%= @event.contact_email %>.
+
+We look forward to seeing you at <%= @event.name %>!
+
+Best regards,
+The Hack Club Team

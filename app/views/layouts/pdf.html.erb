@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visa Invitation Letter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: Letter;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Tinos", "Times New Roman", Times, serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #000000;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      font-weight: 400;
+      letter-spacing: normal;
+    }
+
+    .page {
+      width: 8.5in;
+      height: 11in;
+      padding: 0.5in 0.65in;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .page::before {
+      content: "THE HACK FOUNDATION";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 72pt;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: rgba(26, 58, 92, 0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      top: 0.3in;
+      left: 0.3in;
+      right: 0.3in;
+      bottom: 0.3in;
+      border: 1px solid rgba(26, 58, 92, 0.08);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.15in;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .header-title {
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 28pt;
+      font-weight: bold;
+      color: #b22222;
+      line-height: 1.2;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 10pt;
+      line-height: 1.35;
+    }
+
+    .header-right-name {
+      font-weight: bold;
+    }
+
+    .header-right a {
+      color: #000000;
+      text-decoration: underline;
+    }
+
+    .date-line {
+      margin-top: -0.15in;
+      margin-bottom: 0.2in;
+      font-size: 11pt;
+    }
+
+    .salutation {
+      margin-bottom: 0.18in;
+      font-size: 11pt;
+    }
+
+    .letter-body {
+      text-align: justify;
+    }
+
+    .letter-body p {
+      margin-bottom: 0.15in;
+    }
+
+    .indented-block {
+      margin-left: 0.4in;
+      margin-top: 0.1in;
+      margin-bottom: 0.15in;
+    }
+
+    .indented-block p {
+      margin-bottom: 0.03in;
+    }
+
+    .participant-details {
+      margin-left: 0.4in;
+      margin-top: 0.1in;
+      margin-bottom: 0.15in;
+    }
+
+    .participant-details p {
+      margin-bottom: 0.02in;
+    }
+
+    .closing {
+      margin-top: 0.2in;
+      margin-bottom: 0.08in;
+      font-size: 11pt;
+    }
+
+    .signature-block {
+      margin-top: 0.05in;
+    }
+
+    .signature-image {
+      max-width: 1.5in;
+      max-height: 0.8in;
+      display: block;
+      margin-bottom: 0;
+    }
+
+    .signature-name {
+      font-size: 11pt;
+      margin-bottom: 0.01in;
+    }
+
+    .signature-title {
+      font-size: 11pt;
+    }
+
+    .official-seal {
+      position: absolute;
+      right: 0.8in;
+      bottom: 1.8in;
+      width: 1in;
+      height: 1in;
+      border: 2px solid rgba(26, 58, 92, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 6pt;
+      color: rgba(26, 58, 92, 0.25);
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .official-seal::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      border: 1px solid rgba(26, 58, 92, 0.1);
+      border-radius: 50%;
+    }
+
+    .letter-footer {
+      position: absolute;
+      bottom: 0.4in;
+      left: 0.65in;
+      right: 0.65in;
+      border-top: 2px solid #1a3a5c;
+      padding-top: 0.12in;
+      font-size: 8pt;
+      color: #666666;
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 2px,
+          rgba(26, 58, 92, 0.03) 2px,
+          rgba(26, 58, 92, 0.03) 4px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 2px,
+          rgba(26, 58, 92, 0.03) 2px,
+          rgba(26, 58, 92, 0.03) 4px
+        );
+      padding: 0.1in 0.15in;
+    }
+
+    .security-pattern {
+      position: absolute;
+      top: -0.08in;
+      left: 0;
+      right: 0;
+      font-size: 4pt;
+      letter-spacing: 1.5px;
+      color: rgba(26, 58, 92, 0.3);
+      white-space: nowrap;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+    }
+
+    .letter-footer .nonprofit-info {
+      text-align: center;
+      margin-bottom: 0.05in;
+    }
+
+    .letter-footer .verification {
+      text-align: center;
+      font-size: 7pt;
+      color: #888888;
+    }
+
+    .letter-footer .verification-code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8pt;
+      color: #444444;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

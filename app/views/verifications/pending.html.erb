@@ -1,0 +1,21 @@
+<div class="max-w-xl mx-auto py-12 px-4">
+  <div class="bg-white rounded-lg shadow-lg p-8">
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-100 mb-4">
+        <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h1 class="text-2xl font-bold text-yellow-700 mb-2">Letter Pending</h1>
+      <p class="text-gray-600">This verification code is associated with an application that has not yet been fully processed.</p>
+    </div>
+
+    <div class="bg-yellow-50 rounded-lg p-4 text-sm text-yellow-800">
+      <p>The visa invitation letter for this application is still being processed. Please check back later or contact the event organizers for more information.</p>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= link_to "Verify Another Letter", verify_path, class: "text-red-600 hover:text-red-700 font-medium" %>
+    </div>
+  </div>
+</div>

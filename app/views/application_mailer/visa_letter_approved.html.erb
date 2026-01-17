@@ -1,0 +1,22 @@
+<h1>Your Visa Letter is Ready!</h1>
+
+<p>Hello <%= @participant.full_name %>,</p>
+
+<p>Great news! Your visa letter application for <strong><%= @event.name %></strong> has been approved.</p>
+
+<p>Your official visa invitation letter is attached to this email as a PDF document.</p>
+
+<h2>Event Details</h2>
+<ul>
+  <li><strong>Event:</strong> <%= @event.name %></li>
+  <li><strong>Dates:</strong> <%= @event.date_range %></li>
+  <li><strong>Location:</strong> <%= @event.full_address %></li>
+  <li><strong>Reference Number:</strong> <%= @application.reference_number %></li>
+</ul>
+
+<h2>Next Steps</h2>
+<p>Please print this letter and include it with your visa application. If you have any questions or need additional documentation, please contact us at <%= @event.contact_email %>.</p>
+
+<p>We look forward to seeing you at <%= @event.name %>!</p>
+
+<p>Best regards,<br>The Hack Club Team</p>
