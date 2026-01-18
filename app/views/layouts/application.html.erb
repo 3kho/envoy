@@ -61,30 +61,24 @@
   </head>
 
   <body class="bg-gray-100 min-h-screen flex flex-col">
+    <% if admin_signed_in? %>
     <div class="bg-blue-900 text-white py-1 px-4 text-sm">
       <div class="max-w-7xl mx-auto flex justify-end space-x-4">
-        <% if admin_signed_in? %>
-          <%= link_to "Admin Dashboard", admin_dashboard_path, class: "hover:underline" %>
-          <%= button_to "Sign Out", destroy_admin_session_path, method: :delete, class: "hover:underline" %>
-        <% else %>
-          <%= link_to "Admin Login", new_admin_session_path, class: "hover:underline" %>
-        <% end %>
+        <%= link_to "Admin Dashboard", admin_dashboard_path, class: "hover:underline" %>
+        <%= button_to "Sign Out", destroy_admin_session_path, method: :delete, class: "hover:underline" %>
       </div>
     </div>
+    <% end %>
     <nav class="bg-white border-b-4 border-blue-700 shadow-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
           <div class="flex items-center">
-            <div class="mr-4">
-              <img src="/logo.svg" alt="Hack Club" class="h-16 w-16">
-            </div>
-            <%= link_to root_path, class: "flex flex-col" do %>
-              <span class="text-xl font-bold text-blue-900">Hack Club Events</span>
-              <span class="text-sm text-gray-600">International Travel Program</span>
+            <%= link_to root_path do %>
+              <img src="/logo.svg?v=2" alt="Hack Club" class="h-12">
             <% end %>
           </div>
           <div class="flex items-center space-x-6">
-            <%= link_to "Events", events_path, class: "text-blue-900 font-semibold hover:underline" %>
+            <%= link_to "Home", events_path, class: "text-blue-900 font-semibold hover:underline" %>
             <%= link_to "Check Application Status", lookup_application_path, class: "text-blue-900 font-semibold hover:underline" %>
           </div>
         </div>
@@ -120,14 +114,15 @@
           </div>
           <div>
             <h3 class="font-bold mb-2">Contact</h3>
-            <p class="text-sm text-gray-300">visa@hackclub.com</p>
+            <p class="text-sm text-gray-300">events@hackclub.com</p>
+            <p class="text-sm text-gray-300">Toll free: <a href="tel:1-855-625-4225" class="hover:underline">1-855-625-HACK</a></p>
           </div>
           <div>
-            <h3 class="font-bold mb-2">Resources</h3>
+            <h3 class="font-bold mb-2">Additional Resources</h3>
             <ul class="text-sm text-gray-300 space-y-1">
-              <li><%= link_to "Events", events_path, class: "hover:underline" %></li>
-              <li><%= link_to "Check Status", lookup_application_path, class: "hover:underline" %></li>
-              <li><%= link_to "Documentation", documentation_path, class: "hover:underline" %></li>
+              <li><%= link_to "Verify Letter", verify_path, class: "hover:underline" %></li>
+              <li><%= link_to "Frequently Asked Questions", documentation_path, class: "hover:underline" %></li>
+              <li><%= link_to "Admin Login", new_admin_session_path, class: "hover:underline" %></li>
             </ul>
           </div>
         </div>
