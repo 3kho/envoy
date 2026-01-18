@@ -17,20 +17,26 @@ class VisaLetterApplicationsController < ApplicationController
       return
     end
 
-    @participant = Participant.find_or_initialize_by(email: participant_params[:email].to_s.strip.downcase)
-    @participant.assign_attributes(participant_params)
+    email = participant_params[:email].to_s.strip.downcase
+    existing_participant = Participant.find_by(email: email)
 
-    if @participant.save
-      existing_application = @participant.visa_letter_applications.find_by(event: @event)
+    if existing_participant
+      existing_application = existing_participant.visa_letter_applications.find_by(event: @event)
 
       if existing_application && !existing_application.rejected?
-        redirect_to verify_email_visa_letter_application_path(existing_application),
-                    notice: "You already have an application for this event. Please verify your email."
+        @participant = Participant.new(participant_params)
+        flash.now[:alert] = "An application for this email already exists for this event. Please check your email for status updates."
+        render :new, status: :unprocessable_entity
         return
       end
 
       existing_application&.destroy if existing_application&.rejected?
+    end
 
+    @participant = existing_participant || Participant.new
+    @participant.assign_attributes(participant_params)
+
+    if @participant.save
       @application = @participant.visa_letter_applications.build(event: @event)
 
       if @application.save
