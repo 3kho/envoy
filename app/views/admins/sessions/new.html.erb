@@ -1,0 +1,22 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="max-w-md w-full mx-4">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">Admin Login</h1>
+        <p class="text-gray-600">Sign in to access the admin dashboard</p>
+      </div>
+
+      <%= button_to admin_hack_club_omniauth_authorize_path, method: :post, data: { turbo: false }, class: "w-full bg-red-600 text-white py-3 px-4 rounded-md hover:bg-red-700 font-medium flex items-center justify-center gap-2" do %>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+          <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+        </svg>
+        Sign in with Hack Club
+      <% end %>
+
+      <div class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+        <p>Only authorized Hack Club staff can access the admin area.</p>
+      </div>
+    </div>
+  </div>
+</div>

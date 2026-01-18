@@ -18,6 +18,9 @@ gem "image_processing", "~> 1.2"
 
 # Authentication & Authorization
 gem "devise"
+gem "omniauth"
+gem "omniauth-hack_club"
+gem "omniauth-rails_csrf_protection"
 gem "pundit"
 
 # Background Jobs
